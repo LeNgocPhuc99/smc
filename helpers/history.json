@@ -1,0 +1,30 @@
+{
+  "avalancheFujiTestnet": {
+    "Collectible": {
+      "address": "0x0593eD67709f16E012A50a93fD80b61162c1049F",
+      "verified": true,
+      "args": [],
+      "date": "2022-07-01T03:05:57.693Z"
+    },
+    "Marketplace": {
+      "address": "0x0181E9edDB8B41247401Ade13B515F6fe1507BD9",
+      "verified": true,
+      "args": [],
+      "date": "2022-07-01T04:14:40.653Z"
+    }
+  },
+  "bscTestnet": {
+    "Collectible": {
+      "address": "0x8006E790754b38C708Dc8e9fbe518865bD86cCf3",
+      "verified": true,
+      "args": [],
+      "date": "2022-07-01T04:24:37.268Z"
+    },
+    "Marketplace": {
+      "address": "0x155FEDB464626488265FD4Ff8302727419B78811",
+      "verified": true,
+      "args": [],
+      "date": "2022-07-01T04:30:46.500Z"
+    }
+  }
+}
