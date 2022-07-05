@@ -12,9 +12,12 @@ const Tasks = [
     title: "Deploy contract Marketplace",
     description: "ERC721 Marketplace",
     value: "deploy_contract_marketplace",
-  }
-  //0.000000025 AVAX
-  //0.00000001 BNB
+  },
+  {
+    title: "Deploy contract MerkleTest",
+    description: "Deploy contract MerkleTest",
+    value: "deploy_contract_merkle_test",
+  },
 ];
 
 module.exports = {
@@ -36,6 +39,15 @@ module.exports = {
         }
         let constructorArguments = [];
         await deploy("Marketplace", constructorArguments);
+      });
+
+    task("deploy_contract_merkle_test", "Deploy contract MerkleTest")
+      .addParam("gui", "Enabled GUI", true, types.boolean, true)
+      .setAction(async (taskArgs, hre, runSuper) => {
+        if (taskArgs.gui === true) {
+        }
+        let constructorArguments = [];
+        await deploy("MerkleTest", constructorArguments);
       });
   },
 };

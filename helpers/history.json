@@ -25,6 +25,12 @@
       "verified": true,
       "args": [],
       "date": "2022-07-01T04:30:46.500Z"
+    },
+    "MerkleTest": {
+      "address": "0x69C3feEa77b0Dd38E9E185d3E3dE5F152231874F",
+      "verified": true,
+      "args": [],
+      "date": "2022-07-05T07:18:35.617Z"
     }
   }
 }
