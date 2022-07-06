@@ -5,6 +5,16 @@
   "scripts": {
     "clean": "npx hardhat clean",
     "compile": "npx hardhat compile",
+    "test": "npx hardhat test test/1.Box.test.js",
+    "test-proxy": "npx hardhat test test/2.BoxProxy.test.js",
+    "test-boxV2": "npx hardhat test test/3.BoxV2.test.js",
+    "test-proxyV2": "npx hardhat test test/4.BoxProxyV2.test.js",
+    "test-proxyV3": "npx hardhat test test/5.BoxProxyV3.test.js",
+    "test-proxyV4": "npx hardhat test test/6.BoxProxyV4.test.js",
+    "deploy-test": "npx hardhat run scripts/1.deploy_box.js --network bscTestnet",
+    "deploy-upgrade-v2": "npx hardhat run scripts/2.upgradeV2.js --network bscTestnet",
+    "deploy-upgrade-v3": "npx hardhat run scripts/3.upgradeV3.js --network bscTestnet",
+    "prepare-upgrade-v4": "npx hardhat run scripts/4.prepareV4.js --network bscTestnet",
     "deploy": "npx hardhat deploy",
     "deploy:avax": "npx hardhat deploy --network avalancheFujiTestnet",
     "deploy:bscTestnet": "npx hardhat deploy --network bscTestnet",
@@ -38,5 +48,8 @@
     "prompts": "^2.4.2",
     "solhint": "^3.3.7",
     "solidity-coverage": "^0.7.20"
+  },
+  "dependencies": {
+    "@openzeppelin/hardhat-upgrades": "^1.19.0"
   }
 }
