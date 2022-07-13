@@ -11,6 +11,16 @@
       "verified": true,
       "args": [],
       "date": "2022-07-01T04:14:40.653Z"
+    },
+    "Store": {
+      "address": "0x8E10f24Da3Fe3F290dC69dA6ceaE34bf3EcF84ED",
+      "verified": true,
+      "args": [
+        "Decentralized Store",
+        "0x107d213c2955719a59140f1e9e90be77480d6cd5",
+        10
+      ],
+      "date": "2022-07-13T08:37:09.214Z"
     }
   },
   "bscTestnet": {
@@ -31,6 +41,16 @@
       "verified": true,
       "args": [],
       "date": "2022-07-05T07:18:35.617Z"
+    },
+    "Store": {
+      "address": "0x62E110434B60dD4f840C1941aC5631869263C698",
+      "verified": true,
+      "args": [
+        "Decentralized Store",
+        "0x107d213c2955719a59140f1e9e90be77480d6cd5",
+        10
+      ],
+      "date": "2022-07-13T08:31:09.180Z"
     }
   }
 }

@@ -18,6 +18,11 @@ const Tasks = [
     description: "Deploy contract MerkleTest",
     value: "deploy_contract_merkle_test",
   },
+  {
+    title: "Deploy contract Store",
+    description: "Deploy contract Store",
+    value: "deploy_contract_store",
+  },
 ];
 
 module.exports = {
@@ -48,6 +53,18 @@ module.exports = {
         }
         let constructorArguments = [];
         await deploy("MerkleTest", constructorArguments);
+      });
+    
+      task("deploy_contract_store", "Deploy contract Store")
+      .addParam("gui", "Enabled GUI", true, types.boolean, true)
+      .setAction(async (taskArgs, hre, runSuper) => {
+        if (taskArgs.gui === true) {
+        }
+        let _storeName = "Decentralized Store";
+        let _storeOwner = "0x107D213c2955719a59140f1E9e90Be77480D6Cd5".toLowerCase()
+        let _feePercent = 10;
+        let constructorArguments = [_storeName, _storeOwner, _feePercent];
+        await deploy("Store", constructorArguments);
       });
   },
 };
