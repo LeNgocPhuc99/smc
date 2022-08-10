@@ -36,7 +36,6 @@ module.exports = {
         let constructorArguments = [];
         await deploy("Collectible", constructorArguments);
       });
-
     task("deploy_contract_marketplace", "Deploy contract Marketplace")
       .addParam("gui", "Enabled GUI", true, types.boolean, true)
       .setAction(async (taskArgs, hre, runSuper) => {
@@ -45,7 +44,22 @@ module.exports = {
         let constructorArguments = [];
         await deploy("Marketplace", constructorArguments);
       });
-
+    task("deploy_contract_asu_token", "Deploy contract ASUToken")
+      .addParam("gui", "Enabled GUI", true, types.boolean, true)
+      .setAction(async (taskArgs, hre, runSuper) => {
+        if (taskArgs.gui === true) {
+        }
+        let constructorArguments = [];
+        await deploy("ASUToken", constructorArguments);
+      });
+    task("deploy_contract_token_faucet", "Deploy contract TokenFaucet")
+      .addParam("gui", "Enabled GUI", true, types.boolean, true)
+      .setAction(async (taskArgs, hre, runSuper) => {
+        if (taskArgs.gui === true) {
+        }
+        let constructorArguments = [];
+        await deploy("TokenFaucet", constructorArguments);
+      });
     task("deploy_contract_merkle_test", "Deploy contract MerkleTest")
       .addParam("gui", "Enabled GUI", true, types.boolean, true)
       .setAction(async (taskArgs, hre, runSuper) => {
@@ -54,14 +68,15 @@ module.exports = {
         let constructorArguments = [];
         await deploy("MerkleTest", constructorArguments);
       });
-    
-      task("deploy_contract_store", "Deploy contract Store")
+
+    task("deploy_contract_store", "Deploy contract Store")
       .addParam("gui", "Enabled GUI", true, types.boolean, true)
       .setAction(async (taskArgs, hre, runSuper) => {
         if (taskArgs.gui === true) {
         }
         let _storeName = "Decentralized Store";
-        let _storeOwner = "0x107D213c2955719a59140f1E9e90Be77480D6Cd5".toLowerCase()
+        let _storeOwner =
+          "0x107D213c2955719a59140f1E9e90Be77480D6Cd5".toLowerCase();
         let _feePercent = 10;
         let constructorArguments = [_storeName, _storeOwner, _feePercent];
         await deploy("Store", constructorArguments);
