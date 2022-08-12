@@ -1,0 +1,1 @@
+- Impossible to use these logic contracts with any other proxy that does not inherit the common storage contract
