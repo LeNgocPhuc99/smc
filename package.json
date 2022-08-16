@@ -11,7 +11,7 @@
     "test-proxyV2": "npx hardhat test test/4.BoxProxyV2.test.js",
     "test-proxyV3": "npx hardhat test test/5.BoxProxyV3.test.js",
     "test-proxyV4": "npx hardhat test test/6.BoxProxyV4.test.js",
-    "deploy-test": "npx hardhat run scripts/1.deploy_box.js --network bscTestnet",
+    "deploy-box": "npx hardhat run scripts/1.deploy_box.js --network bscTestnet",
     "deploy-upgrade-v2": "npx hardhat run scripts/2.upgradeV2.js --network bscTestnet",
     "deploy-upgrade-v3": "npx hardhat run scripts/3.upgradeV3.js --network bscTestnet",
     "prepare-upgrade-v4": "npx hardhat run scripts/4.prepareV4.js --network bscTestnet",

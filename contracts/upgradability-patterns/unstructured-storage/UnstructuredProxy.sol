@@ -11,21 +11,21 @@ contract UnstructuredProxy {
     function getImplementationAddress() public view returns (address impl) {
         bytes32 _implementationPosition = implementationPosition;
         assembly {
-            impl := sload(_implementationPosition)
+            impl := sload(_implementationPosition) // load data
         }
     }
 
     function setImplementationAddress(address _implementationAddress) public {
         bytes32 _implementationPosition = implementationPosition;
         assembly {
-            sstore(_implementationPosition, _implementationAddress)
+            sstore(_implementationPosition, _implementationAddress) // store data
         }
     }
 
     function getOwnerAddress() external view returns (address ownr) {
         bytes32 _ownerPosition = ownerPosition;
         assembly {
-            ownr := sload(_ownerPosition)
+            ownr := sload(_ownerPosition) 
         }
     }
 
@@ -39,7 +39,7 @@ contract UnstructuredProxy {
     fallback() external {
         address implementation = getImplementationAddress();
         assembly {
-            let ptr := mload(0x40)
+            let ptr := mload(0x40) // next position free 
             calldatacopy(ptr, 0, calldatasize())
             let result := delegatecall(
                 gas(),

@@ -19,8 +19,8 @@ contract Diamond is IDiamondCut {
     }
 
     fallback() external {
-        LibDiamond._DiamondStorage storage ds = LibDiamond.getDiamondStorage();
-        address facet = ds.selectorTofacet[msg.sig]._facetAddress;
+        LibDiamond.DiamondStorage storage ds = LibDiamond.getDiamondStorage();
+        address facet = ds.selectorTofacet[msg.sig].facetAddress;
         require(facet != address(0));
         assembly {
             calldatacopy(0, 0, calldatasize())

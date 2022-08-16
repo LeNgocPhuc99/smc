@@ -1,11 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-/*
- * This library provides all the implementation for the Diamond proxy.
- * Libraries cannot have state variables. Hence, a struct is declared to keep the storage declaration consistent.
- *
- */
 import {IDiamondCut} from "../interfaces/IDiamondCut.sol";
 
 /**
@@ -13,14 +8,17 @@ import {IDiamondCut} from "../interfaces/IDiamondCut.sol";
  * hash({contract}.storage.{Name}): assign separate storage slots to each facet. ==> diamond storage pattern
  */
 library LibDiamond {
-    // sp function in facet contract ???
-    struct _FacetAddressToSelectorPosition {
-        address _facetAddress;
-        uint16 selectorIndex;
+
+    struct FacetAddressToSelectorPosition {
+        address facetAddress; // facet address
+        uint16 selectorIndex; // selector index
     }
 
-    struct _DiamondStorage {
-        mapping(bytes4 => _FacetAddressToSelectorPosition) selectorTofacet; // A mapping is not iteratable. Therefore, it is hard for the Loupe functions to return the selectors that belong to a facet.
+    // the storage structure: contains the state variable
+    struct DiamondStorage {
+        // function selector => facet address and selector position in selectors array
+        mapping(bytes4 => FacetAddressToSelectorPosition) selectorTofacet; 
+        // owner of the contract
         address owner;
         bytes4[] selectors;
     }
@@ -39,19 +37,21 @@ library LibDiamond {
         uint16 selectorIndex
     );
 
+    // returns a storage pointer to a struct which can contain any number of values.
     function getDiamondStorage()
         internal
         pure
-        returns (_DiamondStorage storage ds)
+        returns (DiamondStorage storage ds)
     {
-        bytes32 storageLocation = keccak256("diamond.storage.LibDiamond"); // For avoiding collisions, we will place the storage in a designated slot.
+        // Diamon storage position
+        bytes32 storageLocation = keccak256("diamond.storage.LibDiamond");
         assembly {
-            ds.slot := storageLocation // get struct stored at slot storageLocation ???
+            ds.slot := storageLocation // set slot pointer of diamond storage structure
         }
     }
 
     function setOwner(address _owner) internal {
-        _DiamondStorage storage ds = getDiamondStorage();
+        DiamondStorage storage ds = getDiamondStorage();
         ds.owner = _owner;
     }
 
@@ -116,7 +116,7 @@ library LibDiamond {
     }
 
     function enforceIsContractOwner() internal view {
-        _DiamondStorage storage ds = getDiamondStorage();
+        DiamondStorage storage ds = getDiamondStorage();
         require(msg.sender == ds.owner, "Must be owner");
     }
 
@@ -128,26 +128,26 @@ library LibDiamond {
                      Don't know if only owner is allowed to add an address
      */
     function addSelector(address _facetAddress, bytes4 selector) internal {
-        _DiamondStorage storage ds = getDiamondStorage();
+        DiamondStorage storage ds = getDiamondStorage();
         require(_facetAddress != address(0), "Facet address can't be 0");
         // _faceAddress is a smart contract
         enforceHasContractCode(_facetAddress, "Contract doesn't have code");
         // Get the selector position: Elements are added at the end of the array. Therefore, arrayLength becomes the next position. If the item is not present already.
         // So it makes sense to check if the item is added already
         require(
-            ds.selectorTofacet[selector]._facetAddress == address(0),
+            ds.selectorTofacet[selector].facetAddress == address(0),
             "Can't add method already added. Use update selector"
         );
         uint16 selectorPosition = uint16(ds.selectors.length); // lastest
 
         ds.selectors.push(selector);
-        ds.selectorTofacet[selector]._facetAddress = _facetAddress;
+        ds.selectorTofacet[selector].facetAddress = _facetAddress;
         ds.selectorTofacet[selector].selectorIndex = selectorPosition;
         emit AddedSelector(
             selector,
             _facetAddress,
             ds.selectors,
-            ds.selectorTofacet[selector]._facetAddress,
+            ds.selectorTofacet[selector].facetAddress,
             ds.selectorTofacet[selector].selectorIndex
         );
     }
@@ -160,14 +160,14 @@ library LibDiamond {
         The new address must have some code. 
     */
 
-        _DiamondStorage storage ds = getDiamondStorage();
+        DiamondStorage storage ds = getDiamondStorage();
         require(_facetAddress != address(0), "Facet address can't be 0");
         require(
-            ds.selectorTofacet[selector]._facetAddress != address(0),
+            ds.selectorTofacet[selector].facetAddress != address(0),
             "The selector doesn't exists"
         );
         require(
-            ds.selectorTofacet[selector]._facetAddress != _facetAddress,
+            ds.selectorTofacet[selector].facetAddress != _facetAddress,
             "Can't be the same address"
         );
         enforceHasContractCode(_facetAddress, "Contract doesn't have code");
@@ -176,16 +176,16 @@ library LibDiamond {
             ds.selectorTofacet[selector].selectorIndex
         );
         ds.selectors.push(selector);
-        ds.selectorTofacet[selector]._facetAddress = _facetAddress;
+        ds.selectorTofacet[selector].facetAddress = _facetAddress;
         ds.selectorTofacet[selector].selectorIndex = selectorPosition;
     }
 
     // This function remove add the selectors to the address and update the mapping
     function removeSelector(bytes4 _selector) internal {
         // required conditions.
-        _DiamondStorage storage ds = getDiamondStorage();
+        DiamondStorage storage ds = getDiamondStorage();
         require(
-            ds.selectorTofacet[_selector]._facetAddress != address(0),
+            ds.selectorTofacet[_selector].facetAddress != address(0),
             "Can't remove a function that doesn't exist"
         );
         // If the function exists, we simply remove. Find the selector by utilising the position in the selectors array. get the last element. and swap them. and pop the item out.
