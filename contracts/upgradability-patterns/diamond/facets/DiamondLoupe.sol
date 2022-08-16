@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import "../interfaces/IDiamondLoupe.sol";
 import "../libraries/LibDiamond.sol";
 
+// use LibDiamond to communicate wuth diamond storage.
 contract DiamondLoupe is IDiamondLoupe {
     /// @notice Gets all facet addresses and their four byte function selectors.
     /// @return facets_ Facet

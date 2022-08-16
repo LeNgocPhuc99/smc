@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+// the functions and their implementation facets supported by the diamond contract
 // A loupe is a small magnifying glass used to look at diamonds.
 // These functions look at diamonds
 interface IDiamondLoupe {

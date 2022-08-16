@@ -13,7 +13,7 @@ import {IDiamondCut} from "../interfaces/IDiamondCut.sol";
  * hash({contract}.storage.{Name}): assign separate storage slots to each facet. ==> diamond storage pattern
  */
 library LibDiamond {
-    // sp function in facet contract ??? 
+    // sp function in facet contract ???
     struct _FacetAddressToSelectorPosition {
         address _facetAddress;
         uint16 selectorIndex;
@@ -31,6 +31,14 @@ library LibDiamond {
         address _init
     );
 
+    event AddedSelector(
+        bytes4 selector,
+        address _facetAddress,
+        bytes4[] selectors,
+        address _facetAddressForSelector,
+        uint16 selectorIndex
+    );
+
     function getDiamondStorage()
         internal
         pure
@@ -38,7 +46,7 @@ library LibDiamond {
     {
         bytes32 storageLocation = keccak256("diamond.storage.LibDiamond"); // For avoiding collisions, we will place the storage in a designated slot.
         assembly {
-            ds.slot := storageLocation // get struct stored at slot storageLocation ??? 
+            ds.slot := storageLocation // get struct stored at slot storageLocation ???
         }
     }
 
@@ -48,9 +56,9 @@ library LibDiamond {
     }
 
     /**
-     * _facet: 
+     * _facet:
      * _calldata:
-     * _init: 
+     * _init:
      */
     function diamondCut(
         IDiamondCut.FacetCut memory _facet,
@@ -122,7 +130,7 @@ library LibDiamond {
     function addSelector(address _facetAddress, bytes4 selector) internal {
         _DiamondStorage storage ds = getDiamondStorage();
         require(_facetAddress != address(0), "Facet address can't be 0");
-        // _faceAddress is a smart contract 
+        // _faceAddress is a smart contract
         enforceHasContractCode(_facetAddress, "Contract doesn't have code");
         // Get the selector position: Elements are added at the end of the array. Therefore, arrayLength becomes the next position. If the item is not present already.
         // So it makes sense to check if the item is added already
@@ -130,18 +138,18 @@ library LibDiamond {
             ds.selectorTofacet[selector]._facetAddress == address(0),
             "Can't add method already added. Use update selector"
         );
-        uint16 selectorPosition = uint16(ds.selectors.length); // lastest 
+        uint16 selectorPosition = uint16(ds.selectors.length); // lastest
 
         ds.selectors.push(selector);
         ds.selectorTofacet[selector]._facetAddress = _facetAddress;
         ds.selectorTofacet[selector].selectorIndex = selectorPosition;
-        // emit AddedSelector(
-        //     selector,
-        //     _facetAddress,
-        //     ds.selectors,
-        //     ds.selectorTofacet[selector]._facetAddress,
-        //     ds.selectorTofacet[selector].selectorIndex
-        // );
+        emit AddedSelector(
+            selector,
+            _facetAddress,
+            ds.selectors,
+            ds.selectorTofacet[selector]._facetAddress,
+            ds.selectorTofacet[selector].selectorIndex
+        );
     }
 
     // This function will add the selectors to the address and update the mapping
