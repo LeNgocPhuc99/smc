@@ -51,6 +51,18 @@
         10
       ],
       "date": "2022-07-13T08:31:09.180Z"
+    },
+    "My1155": {
+      "address": "0x6f29A6A848a7e2f32289d0873B4a56727C53D50a",
+      "verified": false,
+      "args": [],
+      "date": "2022-09-07T06:50:47.067Z"
+    },
+    "ASUToken": {
+      "address": "0xdaF8f84A35FAAc7f9EeBcE871a997d08Ea933Cce",
+      "verified": true,
+      "args": [],
+      "date": "2022-09-28T02:27:53.199Z"
     }
   }
 }

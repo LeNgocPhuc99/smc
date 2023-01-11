@@ -23,6 +23,16 @@ const Tasks = [
     description: "Deploy contract Store",
     value: "deploy_contract_store",
   },
+  {
+    title: "Deploy My1155 contract",
+    description: "Deploy My1155 contract",
+    value: "deploy_contract_my_er1155"
+  },
+  {
+    title: "Deploy ASUToken contract",
+    description: "Deploy ASUToken contract",
+    value: "deploy_contract_asu_token"
+  }
 ];
 
 module.exports = {
@@ -80,6 +90,14 @@ module.exports = {
         let _feePercent = 10;
         let constructorArguments = [_storeName, _storeOwner, _feePercent];
         await deploy("Store", constructorArguments);
+      });
+    task("deploy_contract_my_er1155", "Deploy contract My1155")
+      .addParam("gui", "Enabled GUI", true, types.boolean, true)
+      .setAction(async (taskArgs, hre, runSuper) => {
+        if (taskArgs.gui === true) {
+        }
+        let constructorArguments = [];
+        await deploy("My1155", constructorArguments);
       });
   },
 };
