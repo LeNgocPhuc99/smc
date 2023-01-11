@@ -76,7 +76,7 @@ module.exports = {
         if (taskArgs.gui === true) {
         }
         let constructorArguments = [];
-        await deploy("MerkleTest", constructorArguments);
+        await deploy("MerkleTest", constructorArguments).catch((e) => console.log(e));
       });
 
     task("deploy_contract_store", "Deploy contract Store")
